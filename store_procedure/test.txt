@@ -7,3 +7,7 @@ SQL : CALL list_data_by_id_to_doi (149,'2017-01-01 00:00:00', '2017-12-01 00:00:
 
 ------ CALL list_data_by_id_to_doi_id_loai_kinh (id_to_doi,id_loai_kinh,from_date,to_date) -------
 SQL : CALL list_data_by_id_to_doi_id_loai_kinh (149,16,'2017-01-01 00:00:00', '2017-12-01 00:00:00')
+
+
+------ CALL list_report (from_date,to_date) -------
+SQL : Call list_report('2017-10-01','2017-10-08');

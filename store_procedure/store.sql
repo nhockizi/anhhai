@@ -103,3 +103,33 @@ BEGIN
 	ORDER BY DATE(t1.fd)
 	;
 END;
+
+BEGIN
+	SELECT
+		t1.*,
+		(t1.trong_kho + t1.con_lai) as ton_trong_ngay
+	FROM (
+		SELECT
+			DATE(fd) as ngay,
+			CASE `TYP`
+				WHEN 'DXL' THEN m2_remain
+				ELSE 0
+			END as dang_xu_ly,
+			CASE `TYP`
+				WHEN 'TK' THEN m2_remain
+				ELSE 0
+			END as trong_kho,
+			IFNULL(m2_used,0)  as su_dung,
+			CASE `TYP`
+				WHEN 'DSD' THEN m2_remain
+				ELSE 0
+			END as con_lai,
+			CASE `TYP`
+				WHEN 'DSDH' THEN m2_remain
+				ELSE 0
+			END as da_su_dung_het
+		FROM TABLE1
+		WHERE DATE(fd) BETWEEN `p_from_date` AND `p_to_date`
+		ORDER BY DATE(fd)
+	)t1;
+END;

@@ -11,6 +11,11 @@ class Store_model extends CI_Model {
         $query = $this->db->query($store,array($from_date, $to_date));
         return $query->result();
     }
+    public function list_report($from_date,$to_date){
+        $store = 'CALL list_report (?,?)';
+        $query = $this->db->query($store,array($from_date, $to_date));
+        return $query->result();
+    }
     public function call_list_data_by_id_to_doi($id_todoi,$from_date,$to_date){
         $store = 'CALL list_data_by_id_to_doi (?,?,?)';
         $query = $this->db->query($store,array($id_todoi, $from_date, $to_date));
