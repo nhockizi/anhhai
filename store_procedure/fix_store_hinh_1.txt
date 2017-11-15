@@ -16,7 +16,6 @@ BEGIN
 		d.ID as id,
 		IFNULL(SUM(od.SOTAM),0) as sotam,
 		IFNULL(SUM(od.METVUONG),0) as metvuong,
-		t.fd,
 		DATE(t.fd) as fd
 	FROM dics d
 		LEFT JOIN gl_transactions	t
