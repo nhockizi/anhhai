@@ -1,0 +1,36 @@
+CREATE DEFINER=`db`@`%` PROCEDURE `list_data_to_doi`(
+	IN `p_from_date` DATE,
+	IN `p_to_date` DATE,
+	IN `p_from_time` TIME,
+	IN `p_to_time` TIME
+
+)
+LANGUAGE SQL
+NOT DETERMINISTIC
+CONTAINS SQL
+SQL SECURITY DEFINER
+COMMENT ''
+BEGIN
+	SELECT 
+		d.`name`,
+		d.ID as id,
+		IFNULL(SUM(od.SOTAM),0) as sotam,
+		IFNULL(SUM(od.METVUONG),0) as metvuong,
+		t.fd,
+		DATE(t.fd) as fd
+	FROM dics d
+		LEFT JOIN gl_transactions	t
+			ON t.`status` = d.`value`
+			AND date(t.fd) BETWEEN `p_from_date` AND `p_to_date`
+			AND time(t.fd) BETWEEN `p_from_time` AND `p_to_time`
+		LEFT JOIN gl_order_details od
+			ON t.detailId = od.id
+	WHERE d.upcode = 147
+	GROUP BY DATE(t.fd),d.`ID`
+	ORDER BY DATE(t.fd)
+	;
+END;
+
+
+------ CALL list_data_to_doi (from_date,to_date,from_time,to_time) -------
+CALL list_data_to_doi ('2017-10-01', '2017-10-30','08:00:00', '17:00:00');
